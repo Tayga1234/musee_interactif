@@ -1,0 +1,72 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}Afrik'Art{% endblock %}</title>
+
+  <!-- Favicon -->
+  <link rel="icon" href="{% static 'img/favicon.png' %}">
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="{% static 'css/main.css' %}">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+
+  {% block extra_css %}{% endblock %}
+</head>
+<body>
+
+  <!-- ======= Navbar ======= -->
+  <nav class="navbar navbar-expand-lg navbar-dark topbar">
+    <div class="container">
+      <a class="navbar-brand" href="#">Afrik'Art</a>
+      <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+        <ul class="navbar-nav">
+          <a class="nav-link {% block page_active_1 %}{% endblock %}" href="{% url 'galerie:index' %}">Accueil</a>
+          
+          <li class="nav-item dropdown">
+            <a class="nav-link {% block page_active_2 %}{% endblock %} dropdown-toggle" href="{% url 'galerie:liste_expositions' %}" {% comment %} id="oeuvresDropdown" data-bs-toggle="dropdown" {% endcomment %}>Exposition</a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="#recentes">Récentes</a></li>
+              <li><a class="dropdown-item" href="#populaires">Populaires</a></li>
+              <li><a class="dropdown-item" href="#themes">Par Thème</a></li>
+            </ul>
+          </li>
+          <li class="nav-item"><a class="nav-link" href="#evenements">Événements</a></li>
+          <li class="nav-item"><a class="nav-link" href="#contact">A propos</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  
+
+  <!-- ======= Main Content ======= -->
+  <main>
+    {% block content %}{% endblock %}
+  </main>
+
+  <!-- ======= Footer ======= -->
+  <footer class="bg-dark text-white py-4">
+    <div class="container text-center">
+      <p>&copy; 2025 Afrik'Art. Tous droits réservés.</p>
+      <p>Suivez-nous sur : 
+        <a href="#" class="text-white mx-1">Facebook</a> | 
+        <a href="#" class="text-white mx-1">Instagram</a> | 
+        <a href="#" class="text-white mx-1">Twitter</a>
+      </p>
+    </div>
+  </footer>
+
+  <!-- JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="{% static 'js/main.js' %}"></script>
+
+  {% block extra_js %}{% endblock %}
+
+</body>
+</html>

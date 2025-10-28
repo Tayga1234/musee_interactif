@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+
+{% block title %}Accueil - Afrik'Art{% endblock %}
+{% block page_active_1%}active{% endblock %}
+
+{% block content %}
+  <!-- ======= Hero Section ======= -->
+  <section id="hero" class="hero-section d-flex align-items-center text-center">
+    <div class="container">
+      <h1>Bienvenue sur Afrik'Art</h1>
+      <p class="lead">Explorez le musée d'art contemporain africain en ligne. Plongez dans des œuvres uniques et immersives.</p>
+      <a href="#oeuvres" class="btn btn-primary btn-lg">Découvrir les œuvres</a>
+    </div>
+  </section>
+
+  <!-- ======= Présentation ======= -->
+  <section id="presentation" class="py-5 bg-light">
+    <div class="container">
+      <h2 class="text-center mb-4">Présentation de notre application</h2>
+      <p class="lead text-center mb-5">
+        Afrik'Art est une plateforme immersive dédiée à l’art contemporain africain. 
+        Notre application permet aux utilisateurs de découvrir des œuvres uniques, 
+        explorer des galeries virtuelles, et interagir avec les artistes depuis n’importe quel appareil. 
+        Grâce à une interface ludique et intuitive, chaque visite devient une expérience inoubliable.
+      </p>
+  
+      <div class="row text-center">
+        <div class="col-md-4 mb-4">
+          <div class="presentation-card p-4 shadow-sm">
+            <img src="" alt="Immersion" class="mb-3">
+            <h5>Exploration immersive</h5>
+            <p>Visitez les galeries et plongez au cœur des œuvres avec des médias interactifs.</p>
+          </div>
+        </div>
+        <div class="col-md-4 mb-4">
+          <div class="presentation-card p-4 shadow-sm">
+            <img src="" alt="Artistes" class="mb-3">
+            <h5>Rencontre avec les artistes</h5>
+            <p>Découvrez les profils et biographies des artistes contemporains africains.</p>
+          </div>
+        </div>
+        <div class="col-md-4 mb-4">
+          <div class="presentation-card p-4 shadow-sm">
+            <img src="" alt="Ludique" class="mb-3">
+            <h5>Expérience ludique</h5>
+            <p>Participez à des quiz, des visites interactives et des événements en ligne.</p>
+          </div>
+        </div>
+      </div>
+  
+      
+    </div>
+  </section>
+  
+
+  <!-- ======= Œuvres Récentes ======= -->
+  <section id="oeuvres" class="py-5">
+    <div class="container">
+      <h2 class="mb-5 text-center">Œuvres Récentes</h2>
+      <div class="row">
+        {% for oeuvre in oeuvres_recents %}
+        <div class="col-md-3 mb-4">
+          <div class="card h-100 shadow-sm">
+            {% for media in oeuvre.medias.all %}
+              {% if media.type == 'image' %}
+                <img src="#" class="card-img-top" alt="{{ oeuvre.titre }}">
+              {% endif %}
+            {% endfor %}
+            <div class="card-body">
+              <h5 class="card-title">{{ oeuvre.titre }}</h5>
+              <p class="card-text">Par {{ oeuvre.artiste.prenom }} {{ oeuvre.artiste.nom }}</p>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+
+  <!-- ======= Artistes ======= -->
+  <section id="artistes" class="py-5 bg-light">
+    <div class="container">
+      <h2 class="mb-5 text-center">Nos Artistes</h2>
+      <div class="row">
+        {% for artiste in artistes %}
+        <div class="col-md-3 mb-4">
+          <div class="card h-100 text-center shadow-sm">
+            <img src="#" class="card-img-top rounded-circle mx-auto mt-3" alt="{{ artiste.nom }}" style="width:150px; height:150px; object-fit:cover;">
+            <div class="card-body">
+              <h5 class="card-title">{{ artiste.prenom }} {{ artiste.nom }}</h5>
+              <p class="card-text">{{ artiste.biographie|truncatechars:100 }}</p>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+{% endblock %}

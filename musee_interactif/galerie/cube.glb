@@ -1,0 +1,9 @@
+# installer : pip install trimesh pygltflib
+import trimesh
+from pygltflib import GLTF2
+
+# créer un cube
+mesh = trimesh.creation.box(extents=(1,1,1))
+
+# exporter au format glb
+mesh.export('cube.glb')

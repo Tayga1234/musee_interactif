@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block page_active_2 %}active{% endblock %}
+{% block content %}
+
+{% block extra_css %}<link rel="stylesheet" href="{% static 'css/expositions.css' %}">{% endblock %}
+<section id="hero-expo">
+  <div class="hero-content">
+    <h1>Nos Expositions</h1>
+    <p class="lead">Découvrez les expositions en cours et celles qui ont marqué notre histoire.</p>
+  </div>
+</section>
+
+<!-- ===== Expositions en cours ===== -->
+<section id="expositions-en-cours" class="container py-5">
+  <h2>Expositions en cours</h2>
+  <div class="row g-4">
+    {% if expositions_en_cours %}
+      {% for expo in expositions_en_cours %}
+      <div class="col-md-4 col-sm-6">
+        <div class="card h-100">
+          
+          {% if expo.image_affiche %}
+          <img src="{{ expo.image_affiche.url }}" class="card-img-top" alt="{{ expo.titre }}">
+          {% else %}
+          <img src="{% static 'img/default_expo.jpg' %}" class="card-img-top" alt="Image par défaut">
+          {% endif %}
+          <div class="card-body d-flex flex-column">
+            <h5>{{ expo.titre }}</h5>
+            <p>{{ expo.description|truncatewords:20 }}</p>
+            <small><strong>Lieu :</strong> {{ expo.lieu }}</small><br>
+            <small><strong>Du :</strong> {{ expo.date_debut }} – <strong>Au :</strong> {{ expo.date_fin }}</small>
+            <br/>
+            <!-- Bouton Visiter stylé -->
+            <a href="{% url 'galerie:detail_exposition' expo.id %}" class="btn-visit mt-auto">Visiter</a>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    {% else %}
+      <p class="text-center text-muted mt-3">Aucune exposition en cours pour le moment.</p>
+    {% endif %}
+  </div>
+</section>
+
+<!-- ===== Expositions passées ===== -->
+<section id="expositions-passees" class="container py-5">
+  <h2>Expositions passées</h2>
+  <div class="row g-4">
+    {% if expositions_passees %}
+      {% for expo in expositions_passees %}
+      <div class="col-md-4 col-sm-6">
+        <div class="card h-100">
+          {% if expo.image_affiche %}
+          <img src="{{ expo.image_affiche.url }}" class="card-img-top" alt="{{ expo.titre }}">
+          {% else %}
+          <img src="{% static 'img/default_expo.jpg' %}" class="card-img-top" alt="Image par défaut">
+          {% endif %}
+          <div class="card-body">
+            <h5>{{ expo.titre }}</h5>
+            <p>{{ expo.description|truncatewords:20 }}</p>
+            <small><strong>Lieu :</strong> {{ expo.lieu }}</small><br>
+            <small><strong>Du :</strong> {{ expo.date_debut }} – <strong>Au :</strong> {{ expo.date_fin }}</small>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    {% else %}
+      <p class="text-center text-muted mt-3">Aucune exposition passée enregistrée.</p>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}
