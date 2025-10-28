@@ -37,14 +37,45 @@ def liste_expositions(request):
 
 
 def detail_exposition(request, pk):
+    """
+    Affiche le détail d'une exposition, incluant toutes les œuvres associées.
+    """
     exposition = get_object_or_404(Exposition, pk=pk)
-    # récupérer toutes les oeuvres de cette exposition
-    oeuvres = exposition.oeuvres.all()
-    return render(request, 'exposition_detail.html', {
+    oeuvres = exposition.oeuvres.all()  # Toutes les œuvres liées
+    contexte = {
         'exposition': exposition,
-        'oeuvres': oeuvres
-    })
+        'oeuvres': oeuvres,
+    }
+    return render(request, 'exposition_detail.html', contexte)
 
-def detail_oeuvre(request, pk):
-    oeuvre = get_object_or_404(Oeuvre, pk=pk)
-    return render(request, 'detail_oeuvre.html', {'oeuvre': oeuvre})
+
+
+from django.shortcuts import render, get_object_or_404
+from .models import Oeuvre, Media
+
+def detail_oeuvre(request, oeuvre_id):
+    """
+    Affiche le détail d'une œuvre, incluant images, vidéos, audio et fichiers 3D.
+    """
+
+    # Récupérer l'œuvre ou renvoyer 404
+    oeuvre = get_object_or_404(Oeuvre, id=oeuvre_id)
+
+    # Récupérer tous les médias associés
+    medias = oeuvre.medias.all()
+
+    # Séparer les médias par type pour un affichage structuré
+    images = medias.filter(type='image')
+    videos = medias.filter(type='video')
+    audios = medias.filter(type='audio')
+    fichiers_3d = medias.filter(type='3d')
+
+    contexte = {
+        'oeuvre': oeuvre,
+        'images': images,
+        'videos': videos,
+        'audios': audios,
+        'fichiers_3d': fichiers_3d,
+    }
+
+    return render(request, 'oeuvre_detail.html', contexte)

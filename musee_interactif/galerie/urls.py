@@ -9,7 +9,9 @@ urlpatterns = [
     #path('oeuvres/', views.oeuvres, name='oeuvres'),
     #path('contact/', views.contact, name='contact'),
     path('exposition/', views.liste_expositions, name='liste_expositions'),
-    path('oeuvre/<int:pk>/', views.detail_oeuvre, name='detail_oeuvre'),
+    path('oeuvre/<int:oeuvre_id>/', views.detail_oeuvre, name='detail_oeuvre'),
+
+    #path('oeuvres/', views.liste_oeuvres, name='liste_oeuvres'),
     path('exposition/<int:pk>/', views.detail_exposition, name='detail_exposition'),
 
 ]

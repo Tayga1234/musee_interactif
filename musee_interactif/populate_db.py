@@ -9,67 +9,47 @@ django.setup()
 
 from galerie.models import Artiste, Categorie, Oeuvre, Exposition
 
-# === Catégories ===
-categories = [
-    ("Peinture", "Œuvres réalisées à la peinture à huile, acrylique, aquarelle..."),
-    ("Sculpture", "Œuvres modelées, taillées ou moulées."),
-    ("Photographie", "Captures artistiques contemporaines."),
-    ("Installation", "Créations immersives ou expérimentales."),
+artiste, created = Artiste.objects.get_or_create(
+    nom="Inconnu",
+    prenom="Artiste",
+    defaults={
+        "biographie": "Artiste contemporain africain fictif pour le musée.",
+        "nationalite": "Africaine"
+    }
+)
+
+# Créer la catégorie "Masques"
+categorie, created = Categorie.objects.get_or_create(
+    nom="Masques",
+    defaults={"description": "Collection de masques africains contemporains."}
+)
+
+# Liste des masques avec infos de base
+masques_info = [
+    {"titre": "Masque du Soleil", "description": "Symbole de lumière et de renouveau.", "annee": "2023"},
+    {"titre": "Visage des Ancêtres", "description": "Rend hommage aux ancêtres et à la mémoire collective.", "annee": "2024"},
+    {"titre": "Masque de l’Esprit du Baobab", "description": "Représente la sagesse et la longévité.", "annee": "2022"},
+    {"titre": "Masque des Quatre Vents", "description": "Évoque l’union des éléments et des directions.", "annee": "2023"},
+    {"titre": "Gardiens du Royaume", "description": "Protège le patrimoine et la culture locale.", "annee": "2025"},
+    {"titre": "Masque de la Mémoire", "description": "Symbole de l’histoire et du souvenir.", "annee": "2024"},
+    {"titre": "Masque de l’Abondance", "description": "Célèbre la richesse et la prospérité.", "annee": "2023"},
+    {"titre": "Sourire du Village", "description": "Exprime la joie et l’hospitalité africaine.", "annee": "2025"},
+    {"titre": "Masque du Fleuve Sacré", "description": "Inspire respect pour la nature et les ressources d’eau.", "annee": "2022"},
+    {"titre": "Masque de la Sagesse", "description": "Représente la connaissance et l’équilibre.", "annee": "2023"},
 ]
 
-for nom, desc in categories:
-    Categorie.objects.get_or_create(nom=nom, defaults={'description': desc})
-
-print("✅ Catégories créées avec succès !")
-
-# === Artistes ===
-artistes_data = [
-    ("Kouassi", "Adama", "Artiste ivoirien passionné par l'abstraction et la couleur.", "Côte d'Ivoire", "1985-03-21"),
-    ("Ouédraogo", "Mariam", "Sculptrice burkinabè explorant les formes traditionnelles revisitées.", "Burkina Faso", "1990-11-10"),
-    ("Diallo", "Moussa", "Photographe malien documentant la vie urbaine africaine.", "Mali", "1988-06-05"),
-]
-
-for nom, prenom, bio, nat, dob in artistes_data:
-    Artiste.objects.get_or_create(
-        nom=nom,
-        prenom=prenom,
-        defaults={'biographie': bio, 'nationalite': nat, 'date_naissance': dob}
-    )
-
-print("✅ Artistes créés avec succès !")
-
-# === Œuvres ===
-oeuvres_data = [
-    ("Reflets d'Abidjan", "Peinture", "Une vision abstraite de la capitale ivoirienne.", 2018),
-    ("La Force des Femmes", "Sculpture", "Hommage à la résilience féminine.", 2020),
-    ("Lumières de Bamako", "Photographie", "Jeux de lumière dans la ville de Bamako.", 2021),
-]
-
-for titre, cat_nom, desc, annee in oeuvres_data:
-    categorie = Categorie.objects.get(nom=cat_nom)
-    artiste = random.choice(Artiste.objects.all())
-    Oeuvre.objects.get_or_create(
-        titre=titre,
+# Créer les oeuvres
+for info in masques_info:
+    oeuvre, created = Oeuvre.objects.get_or_create(
+        titre=info["titre"],
         artiste=artiste,
         categorie=categorie,
-        defaults={'description': desc, 'annee_creation': annee}
+        defaults={
+            "description": info["description"],
+            "annee_creation": info["annee"]
+        }
     )
-
-print("✅ Œuvres créées avec succès !")
-
-# === Expositions ===
-expo_data = [
-    ("Abstractions Africaines", "Un voyage à travers les formes et couleurs d'Afrique.", date(2025, 5, 10), date(2025, 7, 30)),
-    ("Femmes et Matières", "Exploration de la féminité à travers la sculpture.", date(2025, 8, 15), date(2025, 10, 20)),
-]
-
-for titre, desc, debut, fin in expo_data:
-    expo, created = Exposition.objects.get_or_create(
-        titre=titre,
-        defaults={'description': desc, 'date_debut': debut, 'date_fin': fin}
-    )
-    oeuvres = list(Oeuvre.objects.all())
-    expo.oeuvres.set(random.sample(oeuvres, min(3, len(oeuvres))))
-    expo.save()
-
-print("✅ Expositions créées avec succès !")
+    if created:
+        print(f"Oeuvre '{info['titre']}' créée avec succès")
+    else:
+        print(f"Oeuvre '{info['titre']}' existait déjà")
