@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block page_active_4 %}active{% endblock %}
+{% block title %}Info{% endblock %}
+{% block extra_css %}<link rel="stylesheet" href="{% static 'css/about.css' %}">{% endblock %}
+
+{% block content %}
+<section class="about-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 offset-lg-2 text-center">
+                <h2 class="section-title">Notre Histoire</h2>
+                <p class="lead">Bienvenue au Musée Interactif, un espace où l'art et la technologie se rencontrent pour créer une expérience immersive et éducative.</p>
+                <p>Fondé avec la vision de rendre l'art accessible à tous, notre musée utilise des technologies de pointe comme la réalité virtuelle et la modélisation 3D pour offrir une nouvelle perspective sur les œuvres d'art et les expositions. Nous croyons que l'interaction est la clé pour approfondir la compréhension et l'appréciation de l'art.</p>
+            </div>
+        </div>
+        <div class="row mt-5">
+            <div class="col-md-4">
+                <div class="about-item">
+                    <i class="fas fa-lightbulb"></i>
+                    <h3>Notre Mission</h3>
+                    <p>Éduquer et inspirer à travers des expériences artistiques innovantes et interactives.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="about-item">
+                    <i class="fas fa-eye"></i>
+                    <h3>Notre Vision</h3>
+                    <p>Devenir un leader mondial dans l'intégration de la technologie et de l'art pour une expérience muséale enrichie.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="about-item">
+                    <i class="fas fa-users"></i>
+                    <h3>Notre Équipe</h3>
+                    <p>Une équipe passionnée d'historiens de l'art, de développeurs et de designers dédiés à l'innovation.</p>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-5">
+            <div class="col-lg-8 offset-lg-2 text-center">
+                <h2 class="section-title">Ce que nous offrons</h2>
+                <ul>
+                    <li>Expositions virtuelles en 3D</li>
+                    <li>Œuvres d'art interactives</li>
+                    <li>Visites guidées en réalité virtuelle</li>
+                    <li>Ateliers éducatifs</li>
+                    <li>Collections numériques accessibles partout</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

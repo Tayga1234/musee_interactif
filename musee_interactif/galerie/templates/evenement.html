@@ -1,0 +1,211 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block page_active_3 %}active{% endblock %}
+
+{% block content %}
+
+{% block extra_css %}<link rel="stylesheet" href="{% static 'css/expositions.css' %}">{% endblock %}
+
+<!-- ======= Hero Section ======= -->
+<section id="hero-event" class="d-flex align-items-center text-center text-light" 
+         style="background: url('{% static 'img/event_bg.jpg' %}') center/cover no-repeat; height: 85vh;">
+  <div class="container bg-dark bg-opacity-50 p-5 rounded-4">
+    <h1 class="display-4 fw-bold">Les Événements Afrik'Art</h1>
+    <p class="lead">Célébrons la créativité, la culture et l’innovation africaine à travers nos activités artistiques.</p>
+    <a href="#evenements" class="btn btn-warning btn-lg mt-3">Découvrir le programme</a>
+  </div>
+</section>
+
+<!-- Transition -->
+  <div class="section-divider">
+    <i class="bi bi-stars"></i>
+  </div>
+
+
+<!-- ======= Section Événements ======= -->
+<section id="evenements" class="py-5">
+  <div class="container">
+    <div class="text-center mb-5">
+      <h2 class="fw-bold">Événements à venir</h2>
+      <p class="text-muted">Ne manquez pas les prochaines expériences artistiques Afrik’Art.</p>
+    </div>
+
+    <div class="row g-4">
+      <!-- Événement 1 -->
+      <div class="col-md-4">
+        <div class="card shadow-sm border-0">
+          <img src="{% static 'img/event1.jpg' %}" class="card-img-top" alt="Atelier de Peinture">
+          <div class="card-body">
+            <h5 class="card-title fw-bold">Atelier de Peinture Africaine</h5>
+            <p class="card-text text-muted">Participez à une séance immersive de peinture inspirée des traditions africaines.</p>
+            <p class="text-warning fw-semibold"><i class="bi bi-calendar-event"></i> 10 - 12 Novembre 2025</p>
+            <a href="#" class="btn btn-outline-dark w-100" data-bs-toggle="modal" data-bs-target="#inscriptionModal">En savoir plus</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Événement 2 -->
+      <div class="col-md-4">
+        <div class="card shadow-sm border-0">
+          <img src="{% static 'img/event2.jpg' %}" class="card-img-top" alt="Conférence art numérique">
+          <div class="card-body">
+            <h5 class="card-title fw-bold">Conférence sur l’Art Numérique</h5>
+            <p class="card-text text-muted">Découvrez comment les artistes africains s’approprient les nouvelles technologies.</p>
+            <p class="text-warning fw-semibold"><i class="bi bi-calendar-event"></i> 22 Novembre 2025</p>
+            <a href="#" class="btn btn-outline-dark w-100" data-bs-toggle="modal" data-bs-target="#inscriptionModal">S'inscrire</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Événement 3 -->
+      <div class="col-md-4">
+        <div class="card shadow-sm border-0">
+          <img src="{% static 'img/event3.jpg' %}" class="card-img-top" alt="Expo photo">
+          <div class="card-body">
+            <h5 class="card-title fw-bold">Expo Photo : Regards Urbains</h5>
+            <p class="card-text text-muted">Explorez les villes africaines contemporaines à travers l’objectif des photographes.</p>
+            <p class="text-warning fw-semibold"><i class="bi bi-calendar-event"></i> 1 - 20 Décembre 2025</p>
+            <a href="#" class="btn btn-outline-dark w-100" data-bs-toggle="modal" data-bs-target="#inscriptionModal">Explorer</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- Transition -->
+  <div class="section-divider">
+    <i class="bi bi-stars"></i>
+  </div>
+
+<!-- ======= Expositions Passées (Carrousel) ======= -->
+<section id="expositions-passees" class="py-5 bg-light">
+  <div class="container">
+    <h2 class="text-center mb-4 fw-bold">Expositions Passées</h2>
+
+    {% if expositions_passees %}
+    <div id="carouselExpositionsPassees" class="carousel slide" data-bs-ride="carousel">
+      <div class="carousel-inner">
+
+        {% for expo in expositions_passees %}
+        <div class="carousel-item {% if forloop.first %}active{% endif %}">
+          <div class="row justify-content-center">
+            <div class="col-md-8">
+              <div class="card border-0 shadow-lg">
+                {% if expo.image_affiche %}
+                <img src="{{ expo.image_affiche.url }}" class="d-block w-100" alt="{{ expo.titre }}" style="height: 450px; object-fit: cover;">
+                {% else %}
+                <img src="{% static 'img/default_expo.jpg' %}" class="d-block w-100" alt="Image par défaut" style="height: 450px; object-fit: cover;">
+                {% endif %}
+
+                <div class="card-body text-center">
+                  <h4 class="fw-bold">{{ expo.titre }}</h4>
+                  <p class="text-muted mb-3">{{ expo.description|truncatewords:25 }}</p>
+                  <small class="text-secondary">
+                    <i class="bi bi-calendar-event me-1"></i>
+                    Du <strong>{{ expo.date_debut }}</strong> au <strong>{{ expo.date_fin }}</strong>
+                  </small>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+
+      <!-- Contrôles du carrousel -->
+      <button class="carousel-control-prev" type="button" data-bs-target="#carouselExpositionsPassees" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Précédent</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#carouselExpositionsPassees" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Suivant</span>
+      </button>
+
+      <!-- Indicateurs -->
+      <div class="carousel-indicators mt-3">
+        {% for expo in expositions_passees %}
+        <button type="button" data-bs-target="#carouselExpositionsPassees" data-bs-slide-to="{{ forloop.counter0 }}" class="{% if forloop.first %}active{% endif %}" aria-current="{% if forloop.first %}true{% endif %}" aria-label="Slide {{ forloop.counter }}"></button>
+        {% endfor %}
+      </div>
+    </div>
+    {% else %}
+    <p class="text-center text-muted mt-4">Aucune exposition passée enregistrée.</p>
+    {% endif %}
+  </div>
+</section>
+
+<!-- Transition -->
+  <div class="section-divider">
+    <i class="bi bi-stars"></i>
+  </div>
+
+
+<!-- ======= Section Call to Action ======= -->
+<section class="text-center py-5 bg-dark text-light">
+  <div class="container">
+    <h2>Proposez un événement ou rejoignez nos activités</h2>
+    <p>Contribuez à faire rayonner l’art africain contemporain à travers Afrik’Art.</p>
+    <a href="#" class="btn btn-warning btn-lg" data-bs-toggle="modal" data-bs-target="#inscriptionModal">Soumettre une idée</a>
+  </div>
+</section>
+
+
+<!-- =========================
+     MODAL : S'INSCRIRE
+========================= -->
+<div class="modal fade" id="inscriptionModal" tabindex="-1" aria-labelledby="inscriptionModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content border-0 shadow-lg rounded-4">
+      <div class="modal-header bg-dark text-white">
+        <h5 class="modal-title fw-bold" id="inscriptionModalLabel">
+          <i class="bi bi-warning"></i>En cours d'implémenntation
+        </h5>
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- =========================
+     MODAL : SOUMETTRE UNE IDÉE
+========================= -->
+<div class="modal fade" id="ideeModal" tabindex="-1" aria-labelledby="ideeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content border-0 shadow-lg rounded-4">
+      <div class="modal-header bg-primary text-white">
+        <h5 class="modal-title fw-bold" id="ideeModalLabel">
+          <i class="bi bi-lightbulb-fill me-2"></i>Soumettre une idée d’exposition
+        </h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body p-4">
+        <p class="text-muted mb-3">Partagez votre vision ou concept artistique pour enrichir notre musée virtuel.</p>
+        <form method="POST" action="">
+          {% csrf_token %}
+          <div class="mb-3">
+            <label for="titre_idee" class="form-label">Titre de l’idée</label>
+            <input type="text" name="titre" id="titre_idee" class="form-control" placeholder="Ex: L’Afrique en mouvement" required>
+          </div>
+          <div class="mb-3">
+            <label for="description_idee" class="form-label">Description</label>
+            <textarea name="description" id="description_idee" rows="4" class="form-control" placeholder="Décrivez brièvement votre idée..." required></textarea>
+          </div>
+          <div class="mb-3">
+            <label for="fichier_idee" class="form-label">Image ou document associé (optionnel)</label>
+            <input type="file" name="fichier" id="fichier_idee" class="form-control">
+          </div>
+          <div class="text-end mt-4">
+            <button type="submit" class="btn btn-primary px-4">Soumettre</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+{% endblock %}

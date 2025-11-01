@@ -1,5 +1,6 @@
 from django.urls import path
 from . import views
+from django.contrib.auth.views import LoginView, LogoutView
 
 app_name = 'galerie'
 
@@ -13,5 +14,14 @@ urlpatterns = [
 
     #path('oeuvres/', views.liste_oeuvres, name='liste_oeuvres'),
     path('exposition/<int:pk>/', views.detail_exposition, name='detail_exposition'),
+    
+    path('login/', views.login_view, name='login'),
+    path('logout/', views.logout_view, name='logout'),
+    path('profil/', views.profil, name='profil'),
+    path('register/', views.register, name='register'),
+
+    path('oeuvre/<int:oeuvre_id>/like/', views.like_oeuvre, name='like_oeuvre'),
+    path('about/', views.about, name='about'),
+    path('evenement/', views.evenement, name='evenement'),
 
 ]

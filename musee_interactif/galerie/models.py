@@ -36,7 +36,11 @@ class Oeuvre(models.Model):
     def __str__(self):
         return self.titre
 
-
+    @property
+    def total_likes(self):
+        return self.likes.count()
+    
+    
 class Media(models.Model):
     oeuvre = models.ForeignKey(Oeuvre, on_delete=models.CASCADE, related_name='medias')
     type = models.CharField(max_length=50, choices=[
@@ -62,3 +66,35 @@ class Exposition(models.Model):
 
     def __str__(self):
         return self.titre
+
+from django.contrib.auth.models import User
+from django.db import models
+
+class Profil(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    avatar = models.ImageField(upload_to='avatars/', blank=True, null=True)
+    bio = models.TextField(blank=True)
+
+    def __str__(self):
+        return self.user.username
+
+class Commentaire(models.Model):
+    oeuvre = models.ForeignKey(Oeuvre, on_delete=models.CASCADE, related_name='commentaires')
+    auteur = models.ForeignKey(User, on_delete=models.CASCADE)
+    contenu = models.TextField()
+    date_creation = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.auteur.username} - {self.oeuvre.titre}"
+
+
+class Like(models.Model):
+    oeuvre = models.ForeignKey(Oeuvre, on_delete=models.CASCADE, related_name='likes')
+    utilisateur = models.ForeignKey(User, on_delete=models.CASCADE)
+    date_creation = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ('oeuvre', 'utilisateur')  # un utilisateur ne peut liker qu'une seule fois
+
+    def __str__(self):
+        return f"{self.utilisateur.username} aime {self.oeuvre.titre}"

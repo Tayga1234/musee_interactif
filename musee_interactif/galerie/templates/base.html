@@ -21,37 +21,163 @@
 </head>
 <body>
 
-  <!-- ======= Navbar ======= -->
-  <nav class="navbar navbar-expand-lg navbar-dark topbar">
-    <div class="container">
-      <a class="navbar-brand" href="#">Afrik'Art</a>
-      <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-        <span class="navbar-toggler-icon"></span>
+  <!-- ======= Navbar Moderne ======= -->
+  <nav class="navbar navbar-expand-lg navbar-dark fixed-top modern-navbar">
+    <div class="container d-flex justify-content-between align-items-center">
+      
+      <!-- Logo à gauche -->
+      <a class="navbar-brand d-flex align-items-center fw-bold fs-3" href="{% url 'galerie:index' %}">
+        <img src="{% static 'img/logo.png' %}" alt="Afrik'Art" height="50" class="me-2">
+        Afrik'Art
+      </a>
+
+      
+        <!-- Toggle pour mobile -->
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#modernNavbar" aria-controls="modernNavbar" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="toggler-icon top"></span>
+        <span class="toggler-icon middle"></span>
+        <span class="toggler-icon bottom"></span>
       </button>
-      <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-        <ul class="navbar-nav">
-          <a class="nav-link {% block page_active_1 %}{% endblock %}" href="{% url 'galerie:index' %}">Accueil</a>
-          
-          <li class="nav-item dropdown">
-            <a class="nav-link {% block page_active_2 %}{% endblock %} dropdown-toggle" href="{% url 'galerie:liste_expositions' %}" {% comment %} id="oeuvresDropdown" data-bs-toggle="dropdown" {% endcomment %}>Exposition</a>
-            <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="#recentes">Récentes</a></li>
-              <li><a class="dropdown-item" href="#populaires">Populaires</a></li>
-              <li><a class="dropdown-item" href="#themes">Par Thème</a></li>
-            </ul>
+
+      <!-- Navigation centrale -->
+      <div class="collapse navbar-collapse justify-content-center" id="modernNavbar">
+        <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link {% block page_active_1 %}{% endblock %}" href="{% url 'galerie:index' %}">Accueil</a>
           </li>
-          <li class="nav-item"><a class="nav-link" href="#evenements">Événements</a></li>
-          <li class="nav-item"><a class="nav-link" href="#contact">A propos</a></li>
+          <li class="nav-item">
+            <a class="nav-link {% block page_active_2 %}{% endblock %}" href="{% url 'galerie:liste_expositions' %}">Expositions</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link {% block page_active_3 %}{% endblock %}" href="{% url 'galerie:evenement' %}">Événements</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link {% block page_active_4 %}{% endblock %}" href="{% url 'galerie:about' %}">Infos</a>
+          </li>
         </ul>
       </div>
+
+      <!-- Profil & Notifications à droite -->
+      <ul class="navbar-nav d-flex flex-row align-items-center">
+        <!-- Notifications -->
+        <li class="nav-item dropdown me-3">
+          <a class="nav-link position-relative" href="#" id="notifDropdown" data-bs-toggle="dropdown">
+            <i class="bi bi-bell fs-5"></i>
+            <span class="badge bg-danger rounded-pill notif-badge">1</span>
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end shadow-lg rounded-3 notif-dropdown" aria-labelledby="notifDropdown">
+            <li><a class="dropdown-item" href="#">En cous d'impémentation</a></li>
+          </ul>
+        </li>
+
+        
+        <!-- Profil / Connexion -->
+        <li class="nav-item dropdown">
+          {% if user.is_authenticated %}
+            <a class="nav-link d-flex align-items-center profile-link" href="#" id="profileDropdown" data-bs-toggle="dropdown">
+              
+                <i class="bi bi-person-circle me-2 profile-avatar" style="font-size: 1.5rem;"></i>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end shadow-lg rounded-3 profile-dropdown" aria-labelledby="profileDropdown">
+              <span class="profile-name">{{ user.username }}</span>
+              <li><a class="dropdown-item" href="{% url 'galerie:profil' %}">Mon Profil</a></li>
+              <li><a class="dropdown-item" href="#">Paramètres</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item text-danger" href="{% url 'galerie:logout' %}">Déconnexion</a></li>
+            </ul>
+          {% else %}
+            <a href="#" class="nav-link btn btn-outline-light" data-bs-toggle="modal" data-bs-target="#authModal">
+              Connexion / Inscription
+            </a>
+          {% endif %}
+        </li>
+
+      </ul>
     </div>
   </nav>
+
   
 
   <!-- ======= Main Content ======= -->
   <main>
     {% block content %}{% endblock %}
   </main>
+
+  <!-- Modal Auth -->
+    <div class="modal fade" id="authModal" tabindex="-1" aria-labelledby="authModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content rounded-4">
+          <div class="modal-header border-0">
+            <h5 class="modal-title" id="authModalLabel">Connexion / Inscription</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+          <div class="modal-body">
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs mb-3" id="authTab" role="tablist">
+              <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="login-tab" data-bs-toggle="tab" data-bs-target="#login" type="button">Connexion</button>
+              </li>
+              <li class="nav-item" role="presentation">
+                <button class="nav-link" id="register-tab" data-bs-toggle="tab" data-bs-target="#register" type="button">Inscription</button>
+              </li>
+            </ul>
+
+            <div class="tab-content" id="authTabContent">
+              <!-- Connexion -->
+              <div class="tab-pane fade show active" id="login">
+                <form method="POST" action="{% url 'galerie:login' %}">
+                  {% csrf_token %}
+                  <div class="mb-3">
+                    <label for="usernameLogin" class="form-label">Nom d'utilisateur</label>
+                    <input type="text" class="form-control" id="usernameLogin" name="username" required>
+                  </div>
+                  <div class="mb-3">
+                    <label for="passwordLogin" class="form-label">Mot de passe</label>
+                    <input type="password" class="form-control" id="passwordLogin" name="password" required>
+                  </div>
+                  <button type="submit" class="btn btn-primary w-100">Se connecter</button>
+                </form>
+              </div>
+
+              <!-- Inscription -->
+              <div class="tab-pane fade" id="register">
+                <form method="POST" action="{% url 'galerie:register' %}">
+                  {% csrf_token %}
+                  <div class="mb-3">
+                    <label for="usernameRegister" class="form-label">Nom d'utilisateur</label>
+                    <input type="text" class="form-control" id="usernameRegister" name="username" required>
+                  </div>
+                  <div class="mb-3">
+                    <label for="emailRegister" class="form-label">Email</label>
+                    <input type="email" class="form-control" id="emailRegister" name="email" required>
+                  </div>
+                  <div class="mb-3">
+                    <label for="passwordRegister" class="form-label">Mot de passe</label>
+                    <input type="password" class="form-control" id="passwordRegister" name="password1" required>
+                  </div>
+                  <div class="mb-3">
+                    <label for="passwordConfirm" class="form-label">Confirmer mot de passe</label>
+                    <input type="password" class="form-control" id="passwordConfirm" name="password2" required>
+                  </div>
+                  <button type="submit" class="btn btn-success w-100">S'inscrire</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  <section class="py-5 text-center text-white" style="background: linear-gradient(135deg, #62647ac5, #1518538c);">
+    <div class="container">
+      <h4 class="fw-bold mb-3">Restez informé des nouvelles expositions</h4>
+      <form method="post" class="d-flex justify-content-center">
+        {% csrf_token %}
+        <input type="email" name="email" class="form-control w-50 me-2" placeholder="Entrez votre e-mail" required>
+        <button class="btn btn-light">S’abonner</button>
+      </form>
+    </div>
+  </section>
 
   <!-- ======= Footer ======= -->
   <footer class="bg-dark text-white py-4">
@@ -63,12 +189,14 @@
         <a href="#" class="text-white mx-1">Twitter</a>
       </p>
     </div>
+
   </footer>
 
   <!-- JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
   <script src="{% static 'js/main.js' %}"></script>
-
+  <!-- Import du script nécessaire -->
+<script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
   {% block extra_js %}{% endblock %}
 
 </body>

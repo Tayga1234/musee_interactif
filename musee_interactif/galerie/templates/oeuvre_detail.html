@@ -1,9 +1,10 @@
 {% extends "base.html" %}
 {% load static %}
 {% block extra_css %}<link rel="stylesheet" href="{% static 'css/detail.css' %}">{% endblock %}
+{% block page_active_2 %}active{% endblock %}
 {% block content %}
 <section id="oeuvre-hero" class="py-5 text-white" style="background: linear-gradient(135deg, #4b6cb7, #182848);">
-    <div class="container text-center">
+    <div class="container text-center"></br></br>
         <h1 class="display-4">{{ oeuvre.titre }}</h1>
         <p class="lead">{{ oeuvre.artiste.prenom }} {{ oeuvre.artiste.nom }}</p>
     </div>
@@ -11,7 +12,6 @@
 
 <section class="container py-5">
     <div class="row">
-        <!-- Colonne médias -->
         <!-- Colonne médias -->
         <div class="col-lg-6 mb-4">
             {% if oeuvre.image_principale %}
@@ -46,6 +46,36 @@
         </div>
 
 
+
+{% comment %}             <hr>
+
+            <!-- Commentaires -->
+            <div class="mt-4">
+            <h5><i class="bi bi-chat-dots me-2"></i>Commentaires</h5>
+
+            {% if user.is_authenticated %}
+                <form action="{% url 'galerie:ajouter_commentaire' oeuvre.id %}" method="post" class="mb-3">
+                {% csrf_token %}
+                <textarea name="contenu" rows="3" class="form-control mb-2" placeholder="Écrire un commentaire..."></textarea>
+                <button type="submit" class="btn btn-primary btn-sm">Publier</button>
+                </form>
+            {% else %}
+                <p class="text-muted">Connectez-vous pour commenter cette œuvre.</p>
+            {% endif %}
+
+            {% for commentaire in oeuvre.commentaires.all %}
+                <div class="border p-2 mb-2 rounded">
+                <strong>{{ commentaire.user.username }}</strong>
+                <small class="text-muted">{{ commentaire.date|date:"d M Y H:i" }}</small>
+                <p class="mb-0">{{ commentaire.contenu }}</p>
+                </div>
+            {% empty %}
+                <p class="text-muted">Aucun commentaire pour le moment.</p>
+            {% endfor %}
+            </div> {% endcomment %}
+
+
+
         <!-- Colonne infos -->
         <div class="col-lg-6">
             <h3>Informations</h3>
@@ -64,25 +94,42 @@
         </div>
     </div>
 
+    <!-- Transition -->
+  <div class="section-divider">
+    <i class="bi bi-stars"></i>
+  </div>
+
+
     <!-- Autres œuvres du même artiste -->
     {% if oeuvre.artiste.oeuvres.count > 1 %}
     <hr class="my-5">
     <h4 class="mb-4">Autres œuvres de {{ oeuvre.artiste.prenom }}</h4>
-    <div class="row g-3">
-        {% for autre in oeuvre.artiste.oeuvres.all %}
-            {% if autre.id != oeuvre.id %}
-            <div class="col-md-3 col-sm-6">
-                <a href="#{% comment %} {% url 'detail_oeuvre' autre.id %} {% endcomment %}">
-                    {% if autre.image_principale %}
-                    <img src="{{ autre.image_principale.url }}" class="img-fluid rounded shadow" alt="{{ autre.titre }}">
-                    {% endif %}
-                    <p class="text-center mt-2">{{ autre.titre }}</p>
-                </a>
-            </div>
-            {% endif %}
-        {% endfor %}
+    <div class="row g-3 autres-oeuvres">
+    {% for autre in oeuvre.artiste.oeuvres.all %}
+        {% if autre.id != oeuvre.id %}
+        <div class="col-md-3 col-sm-6">
+            <a href="#">
+                {% if autre.image_principale %}
+                <img src="{{ autre.image_principale.url }}" class="img-fluid rounded shadow" alt="{{ autre.titre }}">
+                {% endif %}
+                <p class="text-center mt-2">{{ autre.titre }}</p>
+            </a>
+        </div>
+        {% endif %}
+    {% endfor %}
     </div>
+
     {% endif %}
+
+    <style>
+        .autres-oeuvres img {
+            width: 100%;       /* occupe toute la largeur du conteneur */
+            height: 200px;     /* hauteur fixe pour uniformiser */
+            object-fit: cover; /* recadre l'image pour remplir sans déformer */
+            border-radius: 8px; /* arrondir légèrement les coins */
+        } 
+    </style>
+
 </section>
 <!-- Fenêtre d’agrandissement -->
 <div id="image-frame" class="image-frame" onclick="closeFrame()">
