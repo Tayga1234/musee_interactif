@@ -1,0 +1,109 @@
+model-viewer {
+    width: 100%;
+    max-width: 600px;
+    height: 400px;
+    margin: 2rem auto;
+    display: block;
+    background-color: #85858573;
+}
+
+.btn-oeuvre {
+    background: linear-gradient(135deg, #ff8c42, #ff7000);
+    color: #fff;
+    padding: 0.5rem 1rem;       /* réduit le padding horizontal */
+    font-size: 1rem;            /* taille du texte légèrement plus petite */
+    font-weight: 500;
+    border-radius: 50px;
+    text-align: center;
+    display: inline-flex;       /* ne prend que la place du contenu */
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.btn-oeuvre i {
+    margin-right: 0.4rem;       /* espace entre l'icône et le texte */
+}
+
+.btn-oeuvre i {
+    font-size: 1.2rem;
+}
+
+.btn-oeuvre:hover {
+    background: linear-gradient(135deg, #ff7000, #ff8c42);
+    transform: scale(1.05);
+    text-decoration: none;
+    color: #fff;
+}
+
+
+#oeuvre-hero {
+    background-size: cover;
+    background-position: center;
+}
+
+#oeuvre-hero h1 {
+    font-weight: 900;
+    text-shadow: 0 4px 15px rgba(0,0,0,0.3);
+}
+
+#oeuvre-hero p {
+    font-size: 1.2rem;
+}
+
+.model-viewer {
+    border-radius: 15px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+}
+.main-image img {
+    max-height: 700px; /* réduit par rapport aux 450px précédents */
+    width: auto;        /* conserve les proportions */
+    object-fit: contain;
+    cursor: pointer;    /* si tu veux cliquer pour agrandir dans le frame */
+    border-radius: 10px;
+    box-shadow: 0 0 8px rgba(0,0,0,0.3);
+}
+
+
+.thumbnail-img {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+.thumbnail-img:hover {
+    transform: scale(1.05);
+}
+
+/* Cadre d’agrandissement */
+.image-frame {
+    display: none;
+    position: fixed;
+    z-index: 1050;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.8);
+    justify-content: center;
+    align-items: center;
+}
+.image-frame img {
+    max-width: 85%;
+    max-height: 85%;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(255,255,255,0.4);
+}
+.close-btn {
+    position: absolute;
+    top: 20px;
+    right: 35px;
+    font-size: 2rem;
+    color: #fff;
+    cursor: pointer;
+    font-weight: bold;
+}
+.close-btn:hover {
+    color: #f1c40f;
+}
